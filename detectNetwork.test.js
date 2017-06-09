@@ -54,7 +54,7 @@ describe('Diner\'s Club', function() {
   });
 
   it('has a prefix of 39 and a length of 14', function() {
-    if (detectNetwork('3934567890123') !== 'Diner\'s Club') {
+    if (detectNetwork('39345678901234') !== 'Diner\'s Club') {
       throw new Error('Test failed');
     }
  
@@ -64,12 +64,12 @@ describe('Diner\'s Club', function() {
 describe('American Express', function() {
   // It can get annoying to keep typing the if/throw, so here is a
   // helper function to throw an error if the input statement isn't true. 
-  var assert = function(isTrue) {
-    if(isTrue) {
-      throw new Error('Test failed');
-    }
- 
-  };
+  // var assert = function(isTrue) {
+  //   if(isTrue) {
+  //     throw new Error('Test failed');
+  //   }
+  // };
+  var assert = chai.assert;
 
   it('has a prefix of 34 and a length of 15', function() {
     assert(detectNetwork('343456789012345') === 'American Express');
@@ -87,7 +87,6 @@ describe('Visa', function() {
   //   http://chaijs.com/
   var assert = chai.assert;
  
-
   it('has a prefix of 4 and a length of 13', function() {
     assert(detectNetwork('4123456789012') === 'Visa');
   });
@@ -131,7 +130,7 @@ describe('MasterCard', function() {
   // var should = chai.should();
   
   it('has a prefix of 54 and a length of 16', function() {
-    expect(detectNetwork('541234567890123')).to.equal('MasterCard');
+    expect(detectNetwork('5412345678901234')).to.equal('MasterCard');
   });
  
   it('has a prefix of 55 and a length of 16', function() {
