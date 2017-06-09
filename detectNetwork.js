@@ -24,16 +24,16 @@
 var detectNetwork = function(cardNumber) {
   var cardName = '';
   for (var i = 0; i < cardNumber.length; i++) {
-    if (cardNumber[0] === '4') {
-      cardName = 'Visa';
-    } else if (cardNumber.length === 14) {
-      cardName = "The Diner's Club";
+    if (cardNumber.length === 14) {
+      if (cardNumber[0] === '3' && Number(cardNumber[1]) >= 8) {
+        cardName = "Diner's Club";
+      }
     } else if (cardNumber.length === 15) {
-      cardName = "American Express"; 
-    } else if (cardNumber[0] === '5' && Number(cardNumber[1]) >= 1) {
-      cardName = 'MasterCard';
+        if (cardNumber[0] === '3' && Number(cardNumber[1]) === 4 || Number(cardNumber[1]) === 7) {
+          cardName = 'American Express';
+        }
+      }
     }
-  }
   return cardName;
 };
 
