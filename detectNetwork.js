@@ -32,9 +32,34 @@ var detectNetwork = function(cardNumber) {
         if (cardNumber[0] === '3' && Number(cardNumber[1]) === 4 || Number(cardNumber[1]) === 7) {
           cardName = 'American Express';
         }
-      }
+    } else if (cardNumber[0] === '4') {
+        if (cardNumber.length === 13 || cardNumber.length === 16 || cardNumber.length === 19) {
+          cardName = 'Visa';
+        }
+    } else if (cardNumber.length === 16) {
+        if (cardNumber[0] === '5') {
+          if (Number(cardNumber[1]) >= 1 && Number(cardNumber[1]) <= 5) {
+            cardName = 'MasterCard';
+          }
+        }
     }
+  }
   return cardName;
 };
 
 
+detectNetwork('38345678901234');
+
+detectNetwork('39345678901234');
+
+detectNetwork('343456789012345');
+
+detectNetwork('373456789012345');
+
+detectNetwork('4123456789012');
+
+detectNetwork('4123456789012345');
+
+detectNetwork('4123456789012345678');
+
+detectNetwork('5112345678901234');
