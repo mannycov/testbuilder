@@ -13,9 +13,8 @@
 
   // Once you've read this, go ahead and try to implement this function, then return to the console.
 
-// Discover  6011, 622126 to 622925, 644, 645, 646, 647, 648, 649, 65  length = 16-19
-// Maestro 5018, 5020, 5038, 5893, 6304, 6759, 6761, 6762, 6763  length = 16-19
-
+// Discover always has a prefix of 6011, 644-649, or 65, and a length of 16 or 19.
+// Maestro always has a prefix of 5018, 5020, 5038, or 6304, and a length of 12-19.
 
 var detectNetwork = function(cardNumber) {
   var cardName = '';
@@ -37,6 +36,20 @@ var detectNetwork = function(cardNumber) {
           if (cardNumber.length === 16) {
             cardName = 'MasterCard';
           }
+        }
+    } else if (cardNumber.substring(0, 4) === '6011') {
+        if (cardNumber.length === 16 || cardNumber.length === 19) {
+          cardName = 'Discover';
+        }
+    } else if (cardNumber.substring(0, 2) === '64') {
+        if (4 <= Number(cardNumber[2]) <= 9) {
+          if (cardNumber.length === 16 || cardNumber.length === 19) {
+            cardName = 'Discover';
+          }
+        }
+    } else if (cardNumber.substring(0, 2) === '65') {
+        if (cardNumber.length === 16 || cardNumber.length === 19) {
+          cardName = 'Discover';
         }
     }
   }
