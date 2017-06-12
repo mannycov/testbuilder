@@ -201,5 +201,41 @@ describe('Maestro', function() {
   } 
 });
 
-describe('should support China UnionPay')
+// China UnionPay always has a prefix of 622126-622925, 624-626, or 6282-6288 and a length of 16-19.
+// Switch always has a prefix of 4903, 4905, 4911, 4936, 564182, 633110, 6333, or 6759 and a length of 16, 18, or 19.
+
+// Heads up! Switch and Visa seem to have some overlapping card numbers - in any apparent conflict, 
+// you should choose the network with the longer prefix.
+
+describe('should support China UnionPay', function() {
+
+  var expect = chai.expect;
+
+  for (var length = 16; length <= 19; length++) {
+    (function(length) {
+      for (var prefix = 622126; prefix <= 622925; prefix++) {
+        (function(prefix) {
+          it('has a prefix of ' + prefix + ' and a length of ' + length, function () {
+            expect(detectNetwork('622126' + '0'.repeat(length - 6))).to.equal('China UnionPay');
+          });
+        })(prefix) 
+      }
+      for (var prefix = 624; prefix <= 626; prefix++) {
+        (function(prefix) {
+          it('has a prefix of ' + prefix + ' and a length of ' + length, function () {
+            expect(detectNetwork('624' + '0'.repeat(length - 3))).to.equal('China UnionPay');
+          });
+        })(prefix) 
+      }
+        for (var prefix = 6282; prefix <= 6288; prefix++) {
+        (function(prefix) {
+          it('has a prefix of ' + prefix + ' and a length of ' + length, function () {
+            expect(detectNetwork('6282' + '0'.repeat(length - 4))).to.equal('China UnionPay');
+          });
+        })(prefix) 
+      }
+    })(length)
+  }
+});
+
 describe('should support Switch')
