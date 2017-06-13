@@ -16,11 +16,13 @@ var detectNetwork = function(cardNumber) {
       if (cardNumber.length === 14) {
         cardName = "Diner's Club";
       }
+    } else if (checkSwitch(cardNumber)) {
+      cardName = 'Switch';
     } else if (cardNumber[0] === '3' && Number(cardNumber[1]) === 4 || Number(cardNumber[1]) === 7) {
         if (cardNumber.length === 15) {
           cardName = 'American Express';
         }
-    } else if (cardNumber[0] === '4') {
+    }  else if (cardNumber[0] === '4') {
         if (cardNumber.length === 13 || cardNumber.length === 16 || cardNumber.length === 19) {
           cardName = 'Visa';
         }
@@ -47,8 +49,8 @@ var detectNetwork = function(cardNumber) {
           cardName = 'Discover';
         }
     } else if (checkChinaUnionPay(cardNumber)) {
-        cardName = 'China UnionPay';
-    }
+      cardName = 'China UnionPay';
+    } 
   }
   return cardName;
 };
@@ -77,13 +79,26 @@ var checkChinaUnionPay = function(cardNumber) {
       }
     }
   }
+  return false;
 }
 
-// China UnionPay always has a prefix of 622126-622925, 624-626, or 6282-6288 and a length of 16-19.
-// Switch always has a prefix of 4903, 4905, 4911, 4936, 564182, 633110, 6333, or 6759 and a length of 16, 18, or 19.
+var switchPrefixes = [4903, 4905, 4911, 4936, 6333, 6759, 564182, 633110];
 
-// Heads up! Switch and Visa seem to have some overlapping card numbers - in any apparent conflict, 
-// you should choose the network with the longer prefix.
-
+var checkSwitch = function(cardNumber) {
+  for (var i = 0; i < cardNumber.length; i++) {
+    for (var j = 0; j < switchPrefixes.length; j++) {
+      if (Number(cardNumber.substring(0, 4)) === switchPrefixes[j]) {
+        if (cardNumber.length === 16 || cardNumber.length === 18 || cardNumber.length === 19) {
+          return true;
+        }
+      } else if (Number(cardNumber.substring(0, 6)) === switchPrefixes[j]) {
+          if (cardNumber.length === 16 || cardNumber.length === 18 || cardNumber.length === 19) {
+            return true;
+          }
+        }
+      }
+    }
+  return false;
+}
 
 

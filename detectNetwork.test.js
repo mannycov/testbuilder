@@ -178,7 +178,6 @@ describe('Discover', function() {
 describe('Maestro', function() {
   // Write full test coverage for the Maestro card
   var expect = chai.expect;
-  //"Maestro always has a prefix of 5018, 5020, 5038, or 6304, and a length of 12-19.",
 
   for (var length = 12; length <= 19; length++) {
     (function(length) {
@@ -201,41 +200,78 @@ describe('Maestro', function() {
   } 
 });
 
-// China UnionPay always has a prefix of 622126-622925, 624-626, or 6282-6288 and a length of 16-19.
-// Switch always has a prefix of 4903, 4905, 4911, 4936, 564182, 633110, 6333, or 6759 and a length of 16, 18, or 19.
-
-// Heads up! Switch and Visa seem to have some overlapping card numbers - in any apparent conflict, 
-// you should choose the network with the longer prefix.
-
 describe('should support China UnionPay', function() {
 
   var expect = chai.expect;
 
   for (var length = 16; length <= 19; length++) {
     (function(length) {
-      for (var prefix = 622126; prefix <= 622925; prefix++) {
-        (function(prefix) {
-          it('has a prefix of ' + prefix + ' and a length of ' + length, function () {
-            expect(detectNetwork('622126' + '0'.repeat(length - 6))).to.equal('China UnionPay');
+      for (var i = 622126; i <= 622925; i++) {
+        (function(i) {
+          it('has a prefix of ' + i + ' and a length of ' + length, function () {
+            expect(detectNetwork(i + '0'.repeat(length - 6))).to.equal('China UnionPay');
           });
-        })(prefix) 
+        })(i) 
       }
-      for (var prefix = 624; prefix <= 626; prefix++) {
-        (function(prefix) {
-          it('has a prefix of ' + prefix + ' and a length of ' + length, function () {
-            expect(detectNetwork('624' + '0'.repeat(length - 3))).to.equal('China UnionPay');
+      for (var j = 624; j <= 626; j++) {
+        (function(j) {
+          it('has a prefix of ' + j + ' and a length of ' + length, function () {
+            expect(detectNetwork(j + '0'.repeat(length - 3))).to.equal('China UnionPay');
           });
-        })(prefix) 
+        })(j) 
       }
-        for (var prefix = 6282; prefix <= 6288; prefix++) {
-        (function(prefix) {
-          it('has a prefix of ' + prefix + ' and a length of ' + length, function () {
-            expect(detectNetwork('6282' + '0'.repeat(length - 4))).to.equal('China UnionPay');
+      for (var k = 6282; k <= 6288; k++) {
+        (function(k) {
+          it('has a prefix of ' + k + ' and a length of ' + length, function () {
+            expect(detectNetwork(k + '0'.repeat(length - 4))).to.equal('China UnionPay');
           });
-        })(prefix) 
+        })(k) 
       }
     })(length)
   }
 });
 
-describe('should support Switch')
+describe('should support Switch', function() {
+
+  var switchPrefixes = [4903, 4905, 4911, 4936, 6333, 6759];
+  var switchPrefixes2 = [564182, 633110];
+
+  var expect = chai.expect;
+
+  for (var i = 0; i < switchPrefixes.length; i++) {
+    (function(i) {
+      it('has a prefix of ' + switchPrefixes[i] + ' and a length of 16', function() {
+        expect(detectNetwork(switchPrefixes[i] + '0'.repeat(12))).to.equal('Switch');
+      });
+
+      it('has a prefix of ' + switchPrefixes[i] + ' and a length of 18', function() {
+        expect(detectNetwork(switchPrefixes[i] + '0'.repeat(14))).to.equal('Switch');
+      });
+
+      it('has a prefix of ' + switchPrefixes[i] + ' and a length of 19', function() {
+        expect(detectNetwork(switchPrefixes[i] + '0'.repeat(15))).to.equal('Switch');
+      }); 
+    })(i)
+  }
+
+  for (var j = 0; j < switchPrefixes2.length; j++) {
+    (function(j) {
+      it('has a prefix of ' + switchPrefixes2[j] + ' and a length of 16', function() {
+        expect(detectNetwork(switchPrefixes2[j] + '0'.repeat(10))).to.equal('Switch');
+      });
+
+      it('has a prefix of ' + switchPrefixes2[j] + ' and a length of 18', function() {
+        expect(detectNetwork(switchPrefixes2[j] + '0'.repeat(12))).to.equal('Switch');
+      });
+
+      it('has a prefix of ' + switchPrefixes2[j] + ' and a length of 19', function() {
+        expect(detectNetwork(switchPrefixes2[j] + '0'.repeat(13))).to.equal('Switch');
+      });
+    })(j)
+  }
+});
+
+
+
+
+
